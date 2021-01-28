@@ -1,0 +1,939 @@
+! Cisco IOS XE Software, Version 03.18.07.SP.156-2.SP7-ext
+! 
+! Image: Software: PPC_LINUX_IOSD-UNIVERSALK9-M, 15.6(2)SP7, RELEASE SOFTWARE (fc2)
+! Image: Compiled: Mon 23-Sep-19 01:33 by mcpre
+! Image: bootflash:/asr900rsp3-universalk9.03.18.07.SP.156-2.SP7-ext.bin
+! Chassis type: ASR-902
+! Memory: main 924845K/6147K
+! Processor ID: FOX2128PGAC
+! CPU: RSP3_200
+! Memory: nvram 32768K
+! 
+! VTP: show vtp status
+! 
+! NAME: "Chassis", DESCR: "ASR 902 Series Router Chassis"
+! PID: ASR-902           , VID: V01, SN: FOX2128PGAC
+! 
+! NAME: "IM subslot 0/0", DESCR: "8-port Ten Gigabit Ethernet SFP+ Interface Module"
+! PID: A900-IMA8Z        , VID: V01, SN: FOC2329N4KN
+! 
+! NAME: "subslot 0/0 transceiver 0", DESCR: "SFP+ 10GBASE-LR"
+! PID: SFP-10G-LR          , VID: B4  , SN: KAFDH003        
+! 
+! NAME: "subslot 0/0 transceiver 1", DESCR: "SFP+ 10GBASE-LR"
+! PID: SFP-10G-LR          , VID: B4  , SN: KAFDH062        
+! 
+! NAME: "subslot 0/0 transceiver 2", DESCR: "SFP+ 10GBASE-LR"
+! PID: SFP-10G-LR          , VID: B4  , SN: M5348091        
+! 
+! NAME: "subslot 0/0 transceiver 3", DESCR: "SFP+ 10GBASE-LR"
+! PID: SFP-10G-LR          , VID: B4  , SN: M5348092        
+! 
+! NAME: "subslot 0/0 transceiver 6", DESCR: "SFP+ 10GBASE-LR"
+! PID: SFP-10G-LR          , VID: A   , SN: S1710249382     
+! 
+! NAME: "subslot 0/0 transceiver 7", DESCR: "SFP+ 10GBASE-LR"
+! PID: SFP-10G-LR          , VID: B4  , SN: M5348089        
+! 
+! NAME: "module R0", DESCR: "ASR 900 Route Switch Processor 3, 200G, XL Scale"
+! PID: A900-RSP3C-200-S  , VID: V03, SN: FOC2127P22B
+! 
+! NAME: "Power Supply Module 0", DESCR: "ASR 900 1200W DC Power Supply"
+! PID: A900-PWR1200-D    , VID: V01, SN: LIT21323DHR
+! 
+! NAME: "Power Supply Module 1", DESCR: "ASR 900 1200W DC Power Supply"
+! PID: A900-PWR1200-D    , VID: V01, SN: LIT21323DGK
+! 
+! NAME: "Fan Tray", DESCR: "ASR 902 FAN Tray"
+! PID: A902-FAN-E        , VID: V01, SN: FOC2127NV20
+! 
+! 
+  
+!
+!
+version 15.6
+service nagle
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec
+service timestamps log datetime localtime
+service password-encryption
+service internal
+service unsupported-transceiver
+no platform punt-keepalive disable-kernel-core
+platform bfd-debug-trace 1
+platform shell
+!
+hostname GE_9208-68PPL-ASR2
+!
+boot-start-marker
+boot system bootflash:/asr900rsp3-universalk9.03.18.07.SP.156-2.SP7-ext.bin
+boot-end-marker
+!
+!
+vrf definition FTTH_HSI_IPTV
+ rd 10.96.1.13:3001
+ !
+ address-family ipv4
+  route-target export 65535:3001
+  route-target import 65535:3000
+ exit-address-family
+ !
+ address-family ipv6
+  route-target export 65535:3001
+  route-target import 65535:3000
+ exit-address-family
+!
+vrf definition FTTH_OM
+ rd 10.96.1.13:6901
+ !
+ address-family ipv4
+  route-target export 65535:6901
+  route-target import 65535:6900
+ exit-address-family
+!
+vrf definition FTTH_VOIP
+ rd 10.96.1.13:4001
+ !
+ address-family ipv4
+  route-target export 65535:4001
+  route-target import 65535:4000
+ exit-address-family
+!
+vrf definition MBH_2G_ABIS
+ rd 65535:1024068082
+ !
+ address-family ipv4
+  route-target export 65535:10240
+  route-target import 65535:10241
+ exit-address-family
+!
+vrf definition MBH_3G_IUB
+ rd 65535:1031068082
+ !
+ address-family ipv4
+  route-target export 65535:10310
+  route-target import 65535:10311
+ exit-address-family
+!
+vrf definition MBH_4G_S1
+ rd 65535:1045068082
+ !
+ address-family ipv4
+  route-target export 65535:10450
+  route-target import 65535:10451
+ exit-address-family
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition OM_2G
+ rd 65535:1022068082
+ !
+ address-family ipv4
+  route-target export 65535:10220
+  route-target import 65535:10221
+ exit-address-family
+!
+vrf definition OM_3G
+ rd 65535:1032068082
+ !
+ address-family ipv4
+  route-target export 65535:10320
+  route-target import 65535:10321
+ exit-address-family
+!
+vrf definition OM_4G
+ rd 65535:1042068082
+ !
+ address-family ipv4
+  route-target export 65535:10420
+  route-target import 65535:10421
+ exit-address-family
+!
+vrf definition OM_5G
+ rd 10.96.1.13:10520
+ !
+ address-family ipv4
+  route-target export 65535:10520
+  route-target import 65535:10521
+ exit-address-family
+!
+vrf definition OM_TX
+ rd 65535:1099068081
+ !
+ address-family ipv4
+  route-target export 65535:10920
+  route-target import 65535:10921
+ exit-address-family
+!
+logging buffered 10000000
+logging rate-limit console all 10 except critical
+no logging console
+enable password 7 121A0C041104
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ local
+aaa authentication login aux local
+aaa authentication login console local
+aaa authorization exec default group tacacs+ none 
+aaa authorization exec console local 
+aaa authorization commands 0 default group tacacs+ none 
+aaa authorization commands 1 default group tacacs+ none 
+aaa authorization commands 15 default group tacacs+ none 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 0 default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone SWISS 1 0
+clock summer-time SWISS recurring last Sun Mar 3:00 last Sun Oct 3:00
+facility-alarm critical exceed-action shutdown
+no ip source-route
+!
+no ip bootp server
+
+no ip domain lookup
+ip domain name salt.ch
+ip dhcp relay information policy keep
+ip dhcp relay information trust-all
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+!
+!
+mpls label protocol ldp
+no mpls ip propagate-ttl 
+multilink bundle-name authenticated
+!
+key chain isis
+ key 0
+   key-string 7 020B054F1F031D29435C074B554645
+   cryptographic-algorithm md5
+license udi pid ASR-902 sn FOX2128PGAC
+license accept end user agreement
+license boot level metroaggrservices
+archive
+ path ftp://172.19.198.123/$h-$t
+ time-period 10080
+!
+sdm prefer disable_8k_efp 
+sdm prefer disable_portchannel_qos_multiple_active 
+sdm prefer default 
+!
+username ipbb privilege 15 password 7 047704080831486E1A180903405B5D52
+!
+redundancy
+!
+!
+!
+!
+controller wanphy 0/0/0
+!
+controller dwdm 0/0/0
+!
+controller wanphy 0/0/1
+!
+controller dwdm 0/0/1
+!
+controller wanphy 0/0/2
+!
+controller dwdm 0/0/2
+!
+controller wanphy 0/0/3
+!
+controller dwdm 0/0/3
+!
+controller wanphy 0/0/4
+!
+controller dwdm 0/0/4
+!
+controller wanphy 0/0/5
+!
+controller dwdm 0/0/5
+!
+controller wanphy 0/0/6
+!
+controller dwdm 0/0/6
+!
+controller wanphy 0/0/7
+!
+controller dwdm 0/0/7
+!
+!
+transceiver type all
+ monitoring
+!
+ip tcp selective-ack
+ip tcp mss 9000
+ip tcp window-size 65535
+ip tcp queuemax 50
+ip tcp path-mtu-discovery
+lldp run
+!
+!
+class-map match-all OLT_OM
+ match vlan  69
+class-map match-all FTTH_RIP
+ match access-group name FTTH_RIP
+class-map match-all FTTH_IPTV
+ match access-group name FTTH_IPTV
+class-map match-all FTTH_VOIP
+ match vlan inner  40
+class-map match-all FTTH_OM
+ match vlan inner  69
+!
+policy-map FTTH_OM
+ class FTTH_OM
+  set dscp cs6
+  set cos 6
+  set mpls experimental topmost 6
+  set mpls experimental imposition 6
+policy-map FTTH_VOIP
+ class FTTH_VOIP
+  set dscp af41
+  set cos 4
+  set mpls experimental topmost 4
+  set mpls experimental imposition 4
+policy-map OLT_OM
+ class OLT_OM
+  set dscp cs6
+  set cos 6
+  set mpls experimental topmost 6
+  set mpls experimental imposition 6
+policy-map FTTH_HSI_IPTV
+ class FTTH_IPTV
+  set cos 3
+  set dscp af31
+  set mpls experimental imposition 3
+  set mpls experimental topmost 3
+ class FTTH_RIP
+  set cos 6
+  set dscp cs6
+ class class-default
+  set dscp af11
+  set cos 1
+  set mpls experimental imposition 1
+  set mpls experimental topmost 1
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description Router_ID
+ ip address 10.96.1.13 255.255.255.255
+!
+interface Port-channel1
+ description to_GE_9200-68ACAC-ASR1_Port-Channel4
+ mtu 9216
+ ip address 10.96.5.121 255.255.255.252
+ ip router isis 
+ load-interval 30
+ mpls ip
+ isis network point-to-point 
+ isis metric 50
+ isis authentication mode md5
+ isis authentication key-chain isis
+!
+interface Port-channel2
+ description to_GE_9208-68PPL-ASR1_Port-Channel1
+ mtu 9216
+ ip address 10.96.13.89 255.255.255.252
+ ip router isis 
+ load-interval 30
+ mpls ip
+ isis network point-to-point 
+ isis metric 151
+ isis authentication mode md5
+ isis authentication key-chain isis
+!
+interface Port-channel3
+ description to_GE_9208-68PPL-OLT1_Eth-trunk2
+ mtu 9216
+ no ip address
+ load-interval 30
+ service instance 69 ethernet
+  encapsulation dot1q 69
+  rewrite ingress tag pop 1 symmetric
+  service-policy input OLT_OM
+  shutdown
+  bridge-domain 69
+ !
+ service instance 330 ethernet
+  encapsulation dot1q 1201 second-dot1q 30
+  rewrite ingress tag pop 2 symmetric
+  service-policy input FTTH_HSI_IPTV
+  shutdown
+  bridge-domain 330
+ !
+ service instance 340 ethernet
+  encapsulation dot1q 1201 second-dot1q 40
+  rewrite ingress tag pop 2 symmetric
+  service-policy input FTTH_VOIP
+  bridge-domain 340
+ !
+ service instance 369 ethernet
+  encapsulation dot1q 1201 second-dot1q 69
+  rewrite ingress tag pop 2 symmetric
+  service-policy input FTTH_OM
+  shutdown
+  bridge-domain 369
+ !
+!
+interface TenGigabitEthernet0/0/0
+ description to_GE_9200-68ACAC-ASR1_Ten0/0/3
+ mtu 9216
+ no ip address
+ load-interval 30
+ synchronous mode
+ channel-group 1
+!
+interface TenGigabitEthernet0/0/1
+ description to_GE_9200-68ACAC-ASR1_Ten0/0/2
+ mtu 9216
+ no ip address
+ load-interval 30
+ synchronous mode
+ channel-group 1
+!
+interface TenGigabitEthernet0/0/2
+ description to_GE_9208-68PPL-ASR1_Ten0/0/0
+ mtu 9216
+ no ip address
+ load-interval 30
+ synchronous mode
+ channel-group 2
+!
+interface TenGigabitEthernet0/0/3
+ description to_GE_9208-68PPL-ASR1_Ten0/0/1
+ mtu 9216
+ no ip address
+ load-interval 30
+ synchronous mode
+ channel-group 2
+!
+interface TenGigabitEthernet0/0/4
+ no ip address
+ load-interval 30
+ shutdown
+ synchronous mode
+!
+interface TenGigabitEthernet0/0/5
+ no ip address
+ load-interval 30
+ shutdown
+ synchronous mode
+!
+interface TenGigabitEthernet0/0/6
+ description to_GE_9208-68PPL-OLT1_NTA2
+ mtu 9216
+ no ip address
+ load-interval 30
+ lacp port-priority 50
+ channel-group 3
+!
+interface TenGigabitEthernet0/0/7
+ description to_GE_9208-68PPL-OLT1_NTB2
+ mtu 9216
+ no ip address
+ load-interval 30
+ lacp port-priority 50
+ channel-group 3
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ negotiation auto
+!
+interface BDI69
+ description OLT_OM_Backup_only   
+ ip address 10.96.129.73 255.255.255.248
+ shutdown
+!
+interface BDI330
+ description FTTH_HSI_IPTV_Backup_only   
+ vrf forwarding FTTH_HSI_IPTV
+ ip address 10.113.152.1 255.255.248.0 secondary
+ ip address 10.113.160.1 255.255.224.0
+ no ip redirects
+ ip local-proxy-arp
+ ip route-cache same-interface
+ shutdown
+ ipv6 address FE80::1201 link-local
+ ipv6 address 2A04:EE41:83:5000::1/52
+ ipv6 nd destination-guard
+ ipv6 nd other-config-flag
+ ipv6 nd ra suppress all
+!
+interface BDI340
+ description FTTH_VOIP         
+ vrf forwarding FTTH_VOIP
+ ip address 10.105.152.1 255.255.248.0 secondary
+ ip address 10.105.160.1 255.255.224.0
+ load-interval 30
+!
+interface BDI369
+ description FTTH_OM_Backup_only                  
+ vrf forwarding FTTH_OM
+ ip address 10.98.152.1 255.255.248.0 secondary
+ ip address 10.98.160.1 255.255.224.0
+ ip helper-address 10.8.156.20
+ shutdown
+!
+router isis
+ net 49.0041.0001.0100.9600.1013.00
+ is-type level-2-only
+ metric-style wide
+ no hello padding
+ log-adjacency-changes
+ passive-interface BDI69
+ passive-interface Loopback0
+ mpls ldp sync
+!
+router rip
+ version 2
+ passive-interface BDI330
+ no auto-summary
+ !
+ address-family ipv4 vrf FTTH_HSI_IPTV
+  network 10.0.0.0
+  distribute-list 20 in
+  no auto-summary
+  version 2
+ exit-address-family
+!
+router bgp 65535
+ bgp router-id interface Loopback0
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.80.0.141 remote-as 15796
+ neighbor 10.80.0.141 local-as 15796
+ neighbor 10.80.0.141 description cr-rr-asr1k-2
+ neighbor 10.80.0.141 update-source Loopback0
+ neighbor 10.80.0.142 remote-as 15796
+ neighbor 10.80.0.142 local-as 15796
+ neighbor 10.80.0.142 description in-rr-asr1k-2
+ neighbor 10.80.0.142 update-source Loopback0
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family vpnv4
+  neighbor 10.80.0.141 activate
+  neighbor 10.80.0.141 send-community both
+  neighbor 10.80.0.141 route-map Route_from_9k in
+  neighbor 10.80.0.142 activate
+  neighbor 10.80.0.142 send-community both
+  neighbor 10.80.0.142 route-map Route_from_9k in
+ exit-address-family
+ !
+ address-family vpnv6
+  neighbor 10.80.0.141 activate
+  neighbor 10.80.0.141 send-community both
+  neighbor 10.80.0.141 route-map Route_from_9k in
+  neighbor 10.80.0.142 activate
+  neighbor 10.80.0.142 send-community both
+  neighbor 10.80.0.142 route-map Route_from_9k in
+ exit-address-family
+ !
+ address-family rtfilter unicast
+  neighbor 10.80.0.141 activate
+  neighbor 10.80.0.141 send-community extended
+  neighbor 10.80.0.142 activate
+  neighbor 10.80.0.142 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf FTTH_HSI_IPTV
+  redistribute connected route-map connected_bgp
+  redistribute rip route-map rip_bgp
+ exit-address-family
+ !
+ address-family ipv6 vrf FTTH_HSI_IPTV
+  redistribute connected route-map connected_bgp
+ exit-address-family
+ !
+ address-family ipv4 vrf FTTH_OM
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf FTTH_VOIP
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf MBH_2G_ABIS
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf MBH_3G_IUB
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf MBH_4G_S1
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf OM_2G
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf OM_3G
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf OM_4G
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf OM_5G
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf OM_TX
+  redistribute connected
+  redistribute static
+ exit-address-family
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CR_COMM permit 3000:100
+ip community-list standard IN_COMM permit 3000:200
+ip ftp source-interface Loopback0
+ip ftp username ciscosav
+ip ftp password 7 1531021F072518043E
+no ip http server
+no ip http ctc authentication
+no ip http secure-server
+ip tacacs source-interface Loopback0
+ip ssh maxstartups 15
+ip ssh source-interface Loopback0
+ip ssh rsa keypair-name cisco
+ip ssh logging events
+ip ssh version 2
+ip ssh dh min size 2048
+ip ssh dscp 56
+ip ssh server algorithm mac hmac-sha1
+ip ssh client algorithm mac hmac-sha1
+!
+ip access-list standard LOGIN-ACLv4
+ permit 172.19.55.216
+ permit 10.193.14.47
+ permit 10.192.14.47
+ remark --- VTY filter ---
+ permit 10.9.9.253
+ permit 172.19.198.0 0.0.0.255
+ permit 172.19.210.0 0.0.0.255
+ permit 172.20.210.0 0.0.0.255
+ permit 10.8.1.0 0.0.0.255
+ permit 10.9.1.0 0.0.0.255
+ permit 172.19.53.204 0.0.0.3
+ permit 10.96.0.0 0.0.0.255
+ permit 10.8.196.0 0.0.0.255
+ip access-list standard NTP-ACLv4
+ remark --- NTP server filter ---
+ permit 172.19.198.122
+ permit 172.19.198.108
+!
+ip access-list extended FTTH_IPTV
+ permit ip any 91.123.96.0 0.0.15.255
+ permit ip 91.123.96.0 0.0.15.255 any
+ permit ip 213.55.129.64 0.0.0.31 any
+ permit ip any 213.55.129.64 0.0.0.31
+ permit ip 213.55.129.192 0.0.0.31 any
+ permit ip any 213.55.129.192 0.0.0.31
+ip access-list extended FTTH_RIP
+ permit ip any host 224.0.0.9
+!
+!
+ip prefix-list rip_bgp seq 5 permit 213.55.208.0/21 ge 32
+ip prefix-list rip_bgp seq 10 permit 213.55.160.0/20 ge 32
+ip prefix-list rip_bgp seq 15 permit 51.154.0.0/16 ge 32
+ip prefix-list rip_bgp seq 20 permit 213.55.240.0/24 ge 32
+logging source-interface Loopback0
+logging host 172.19.198.25
+logging host 172.19.198.216
+access-list 10 permit 10.9.9.253
+access-list 10 remark SSH-login
+access-list 10 permit 172.19.198.0 0.0.0.255
+access-list 10 permit 172.19.210.0 0.0.0.255
+access-list 10 permit 172.20.210.0 0.0.0.255
+access-list 10 permit 10.8.1.0 0.0.0.255
+access-list 10 permit 10.9.1.0 0.0.0.255
+access-list 10 permit 172.19.53.204 0.0.0.3
+access-list 10 permit 10.96.0.0 0.0.0.255
+access-list 20 remark RIP_distribute-list
+access-list 20 permit 213.55.0.0 0.0.255.255
+access-list 20 permit 51.154.0.0 0.0.255.255
+access-list 20 deny   any
+access-list 91 permit 172.0.0.0 0.255.255.255
+access-list 92 permit 172.0.0.0 0.255.255.255
+!
+route-map Route_from_9k permit 10
+ description From_CR
+ match community CR_COMM
+ set local-preference 110
+!
+route-map Route_from_9k permit 20
+ description From_Interxion
+ match community IN_COMM
+ set local-preference 90
+!
+route-map Route_from_9k permit 100
+!
+route-map rip_bgp permit 10
+ description control routes from RIP
+ match ip address prefix-list rip_bgp
+ set community 3000:100
+!
+route-map default_policy_deny_all deny 10
+!
+route-map default_policy_pass_all permit 10
+!
+route-map connected_bgp permit 10
+ description Add HIS_IPTV_Community
+ set community 3000:100
+!
+mpls ldp router-id Loopback0
+snmp-server community matterhorn2017 RO 91
+snmp-server community cervino2017 RW 92
+snmp-server trap-source Loopback0
+snmp-server packetsize 1024
+snmp-server queue-length 200
+snmp-server contact NOC SALT noc@salt.ch
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps vrrp
+snmp-server enable traps ds1
+snmp-server enable traps ds3
+snmp-server enable traps call-home message-send-fail server-fail
+snmp-server enable traps eigrp
+snmp-server enable traps tty
+snmp-server enable traps ospf state-change
+snmp-server enable traps ospf errors
+snmp-server enable traps ospf retransmit
+snmp-server enable traps ospf lsa
+snmp-server enable traps ospf cisco-specific state-change nssa-trans-change
+snmp-server enable traps ospf cisco-specific state-change shamlink interface
+snmp-server enable traps ospf cisco-specific state-change shamlink neighbor
+snmp-server enable traps ospf cisco-specific errors
+snmp-server enable traps ospf cisco-specific retransmit
+snmp-server enable traps ospf cisco-specific lsa
+snmp-server enable traps license
+snmp-server enable traps smart-license
+snmp-server enable traps ike policy add
+snmp-server enable traps ike policy delete
+snmp-server enable traps ike tunnel start
+snmp-server enable traps ike tunnel stop
+snmp-server enable traps ipsec cryptomap add
+snmp-server enable traps ipsec cryptomap delete
+snmp-server enable traps ipsec cryptomap attach
+snmp-server enable traps ipsec cryptomap detach
+snmp-server enable traps ipsec tunnel start
+snmp-server enable traps ipsec tunnel stop
+snmp-server enable traps ipsec too-many-sas
+snmp-server enable traps atm subif
+snmp-server enable traps bfd
+snmp-server enable traps bgp
+snmp-server enable traps bgp cbgp2
+snmp-server enable traps config-copy
+snmp-server enable traps config
+snmp-server enable traps config-ctid
+snmp-server enable traps dhcp
+snmp-server enable traps otn
+snmp-server enable traps event-manager
+snmp-server enable traps hsrp
+snmp-server enable traps pimstdmib neighbor-loss invalid-register invalid-join-prune rp-mapping-change interface-election
+snmp-server enable traps ipmulticast
+snmp-server enable traps isis
+snmp-server enable traps msdp
+snmp-server enable traps ospfv3 state-change
+snmp-server enable traps ospfv3 errors
+snmp-server enable traps pim neighbor-change rp-mapping-change invalid-pim-message
+snmp-server enable traps ipsla
+snmp-server enable traps bridge newroot topologychange
+snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+snmp-server enable traps syslog
+snmp-server enable traps pki
+snmp-server enable traps adslline
+snmp-server enable traps vdsl2line
+snmp-server enable traps ether-oam
+snmp-server enable traps ethernet cfm cc mep-up mep-down cross-connect loop config
+snmp-server enable traps ethernet cfm crosscheck mep-missing mep-unknown service-up
+snmp-server enable traps memory bufferpeak
+snmp-server enable traps entity-state
+snmp-server enable traps fru-ctrl
+snmp-server enable traps entity
+snmp-server enable traps cpu threshold
+snmp-server enable traps rep
+snmp-server enable traps vtp
+snmp-server enable traps vlancreate
+snmp-server enable traps vlandelete
+snmp-server enable traps sonet
+snmp-server enable traps cef resource-failure peer-state-change peer-fib-state-change inconsistency
+snmp-server enable traps lisp
+snmp-server enable traps entity-sensor
+snmp-server enable traps resource-policy
+snmp-server enable traps flash insertion
+snmp-server enable traps flash removal
+snmp-server enable traps netsync
+snmp-server enable traps rsvp
+snmp-server enable traps aaa_server
+snmp-server enable traps ethernet evc status create delete
+snmp-server enable traps mvpn
+snmp-server enable traps nhrp nhs
+snmp-server enable traps nhrp nhc
+snmp-server enable traps nhrp nhp
+snmp-server enable traps nhrp quota-exceeded
+snmp-server enable traps mpls rfc ldp
+snmp-server enable traps mpls ldp
+snmp-server enable traps mpls rfc traffic-eng
+snmp-server enable traps mpls traffic-eng
+snmp-server enable traps mpls fast-reroute protected
+snmp-server enable traps pw vc
+snmp-server enable traps l2tun session
+snmp-server enable traps l2tun pseudowire status
+snmp-server enable traps gdoi gm-start-registration
+snmp-server enable traps gdoi gm-registration-complete
+snmp-server enable traps gdoi gm-re-register
+snmp-server enable traps gdoi gm-rekey-rcvd
+snmp-server enable traps gdoi gm-rekey-fail
+snmp-server enable traps gdoi ks-rekey-pushed
+snmp-server enable traps gdoi gm-incomplete-cfg
+snmp-server enable traps gdoi ks-no-rsa-keys
+snmp-server enable traps gdoi ks-new-registration
+snmp-server enable traps gdoi ks-reg-complete
+snmp-server enable traps gdoi ks-role-change
+snmp-server enable traps gdoi ks-gm-deleted
+snmp-server enable traps gdoi ks-peer-reachable
+snmp-server enable traps gdoi ks-peer-unreachable
+snmp-server enable traps alarms informational
+snmp-server enable traps bulkstat collection transfer
+snmp-server enable traps rf
+snmp-server enable traps vrfmib vrf-up vrf-down vnet-trunk-up vnet-trunk-down
+snmp-server enable traps ethernet cfm alarm
+snmp-server enable traps mac-notification
+snmp-server enable traps transceiver all
+snmp-server enable traps mpls vpn
+snmp-server enable traps mpls rfc vpn
+snmp-server enable traps mpls p2mp-traffic-eng
+snmp-server host 10.8.196.193 version 2c matterhorn2017 
+snmp-server host 10.8.196.195 version 2c matterhorn2017 
+snmp-server host 10.8.196.196 version 2c matterhorn2017 
+snmp-server host 172.19.198.216 version 2c matterhorn2017 
+snmp-server host 172.19.198.217 version 2c matterhorn2017 
+!
+tacacs-server directed-request
+tacacs-server domain-stripping
+tacacs-server key 7 047A06541C20494208
+tacacs-server administration
+tacacs server 172.19.198.219
+ address ipv4 172.19.198.219
+ key 7 047A06541C20494208
+tacacs server 172.19.198.192
+ address ipv4 172.19.198.192
+ key 7 047A06541C20494208
+!
+!
+!
+control-plane
+!
+banner login ^C
+             
+              .oooooo..o           oooo      .       
+             d8P'    `Y8           `888    .o8       
+             Y''88bo.       .oooo.    888  .o888oo     
+              `'Y8888o.  `P  )88b   888    888       
+                  `'Y88b  .oP'888   888    888       
+             oo     .d8P d8(  888   888    888 . .o. 
+             8''88888P'  `Y888''8o o888o   '888' Y8P 
+                                       
+*****************************************************************
+*                                                               *
+*          UNAUTHORIZED ACCESS STRICTLY PROHIBITED              *
+*          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              *
+*  NOTICE: Access to this device is restricted to authorized    *
+*          agents of SALT. only                                 *
+*                                                               *
+*          Accessing this device for any reason without         *
+*          appropriate authorization is not permitted           *
+*                                                               *
+*****************************************************************
+^C
+banner motd ^C
+*****************************************************************************
+Unauthorised access prohibited
+*****************************************************************************
+L'acces a cet equipement est restreint aux personnes autorisees
+*****************************************************************************
+^C
+!
+line con 0
+ session-timeout 5 
+ exec-timeout 30 0
+ privilege level 15
+ transport output telnet
+ stopbits 1
+line vty 0 5
+ session-timeout 5 
+ access-class LOGIN-ACLv4 in vrf-also
+ exec-timeout 9 0
+ privilege level 15
+ logging synchronous
+ length 25
+ transport input telnet ssh
+ transport output telnet ssh
+!
+network-clock revertive 
+network-clock synchronization automatic
+network-clock synchronization mode QL-enabled
+network-clock hold-off 500 global
+network-clock input-source 10 interface TenGigabitEthernet0/0/3
+network-clock input-source 20 interface TenGigabitEthernet0/0/1
+network-clock wait-to-restore 10 global
+esmc process
+ntp passive
+ntp source Loopback0
+ntp access-group peer NTP-ACLv4
+ntp server 172.19.198.122 source Loopback0
+ntp server 172.19.198.108 source Loopback0
+!
+!
+!
+!
+!
+end
+
