@@ -4,7 +4,7 @@
 ! Image: Compiled: Mon 23-Sep-19 01:33 by mcpre
 ! Image: bootflash:/asr900rsp3-universalk9.03.18.07.SP.156-2.SP7-ext.bin
 ! Chassis type: ASR-902
-! Memory: main 924845K/6147K
+! Memory: main 924849K/6147K
 ! Processor ID: FOX2128PGAC
 ! CPU: RSP3_200
 ! Memory: nvram 32768K
@@ -930,6 +930,12 @@ ntp source Loopback0
 ntp access-group peer NTP-ACLv4
 ntp server 172.19.198.122 source Loopback0
 ntp server 172.19.198.108 source Loopback0
+!
+ptp clock boundary domain 26 hybrid profile g8275.1
+ clock-port slave_from_GE9200 profile g8275.1
+  transport ethernet multicast interface Te0/0/1 
+ clock-port master_to_GE9208-1 profile g8275.1
+  transport ethernet multicast interface Te0/0/3 
 !
 !
 !
