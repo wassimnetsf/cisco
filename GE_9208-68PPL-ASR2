@@ -176,7 +176,7 @@ vrf definition OM_TX
 logging buffered 10000000
 logging rate-limit console all 10 except critical
 no logging console
-enable password 7 121A0C041104
+enable password 7 <secret hidden>
 !
 aaa new-model
 !
@@ -229,7 +229,7 @@ multilink bundle-name authenticated
 !
 key chain isis
  key 0
-   key-string 7 020B054F1F031D29435C074B554645
+   key-string <secret hidden>
    cryptographic-algorithm md5
 license udi pid ASR-902 sn FOX2128PGAC
 license accept end user agreement
@@ -242,7 +242,7 @@ sdm prefer disable_8k_efp
 sdm prefer disable_portchannel_qos_multiple_active 
 sdm prefer default 
 !
-username ipbb privilege 15 password 7 047704080831486E1A180903405B5D52
+username ipbb privilege 15 password 7 <secret hidden>
 !
 redundancy
 !
@@ -729,8 +729,8 @@ route-map connected_bgp permit 10
  set community 3000:100
 !
 mpls ldp router-id Loopback0
-snmp-server community matterhorn2017 RO 91
-snmp-server community cervino2017 RW 92
+snmp-server community <configuration removed>
+snmp-server community <configuration removed>
 snmp-server trap-source Loopback0
 snmp-server packetsize 1024
 snmp-server queue-length 200
@@ -850,7 +850,7 @@ snmp-server enable traps transceiver all
 snmp-server enable traps mpls vpn
 snmp-server enable traps mpls rfc vpn
 snmp-server enable traps mpls p2mp-traffic-eng
-snmp-server host 10.8.196.193 version 2c matterhorn2017 
+snmp-server host 10.8.196.193 version 2c <secret hidden>  
 snmp-server host 10.8.196.195 version 2c matterhorn2017 
 snmp-server host 10.8.196.196 version 2c matterhorn2017 
 snmp-server host 172.19.198.216 version 2c matterhorn2017 
@@ -858,14 +858,14 @@ snmp-server host 172.19.198.217 version 2c matterhorn2017
 !
 tacacs-server directed-request
 tacacs-server domain-stripping
-tacacs-server key 7 047A06541C20494208
+tacacs-server key <secret hidden>
 tacacs-server administration
 tacacs server 172.19.198.219
  address ipv4 172.19.198.219
- key 7 047A06541C20494208
+ key <secret hidden>
 tacacs server 172.19.198.192
  address ipv4 172.19.198.192
- key 7 047A06541C20494208
+ key <secret hidden>
 !
 !
 !
