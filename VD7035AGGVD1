@@ -1,0 +1,412 @@
+! PID: A99-RSP-TR, VID: V04, SN: FOC2210N4VU
+! 
+! NAME: "module 0/RSP1/CPU0", DESCR: "ASR 9910 Route Processor for Transport"
+! PID: A99-RSP-TR, VID: V04, SN: FOC2210N4VP
+! 
+! NAME: "module 0/0/CPU0", DESCR: "24X10G/1G Packet Transport Optimized LC"
+! PID: A9K-24X10GE-1G-TR, VID: V01, SN: FOC2210N95M
+! 
+! NAME: "module mau TenGigE0/0/CPU0/0", DESCR: "10GBASE-LR SFP Module, Enterprise-Class"
+! PID: SFP-10G-LR-S       , VID: V01 , SN: FNS220813M4     
+! 
+! NAME: "module mau TenGigE0/0/CPU0/1", DESCR: "10GBASE-LR SFP Module, Enterprise-Class"
+! PID: SFP-10G-LR-S       , VID: V01 , SN: FNS220900J6     
+! 
+! NAME: "module 0/2/CPU0", DESCR: "4x100GE, Transport Edge Optimized LC"
+! PID: A9K-4X100GE-TR, VID: V11, SN: FOC2209NZ0F
+! 
+! NAME: "module mau HundredGigE0/2/CPU0/0", DESCR: "CPAK 100G LR4"
+! PID: CPAK-100G-LR4   , VID: V06 , SN: FBN22071653     
+! 
+! NAME: "module mau HundredGigE0/2/CPU0/1", DESCR: "CPAK 100G LR4"
+! PID: CPAK-100G-LR4   , VID: V06 , SN: FBN22071661     
+! 
+! NAME: "module 0/3/CPU0", DESCR: "4x100GE, Transport Edge Optimized LC"
+! PID: A9K-4X100GE-TR, VID: V11, SN: FOC2209NZ0C
+! 
+! NAME: "module mau HundredGigE0/3/CPU0/0", DESCR: "CPAK 100G LR4"
+! PID: CPAK-100G-LR4   , VID: V06 , SN: FBN22071649     
+! 
+! NAME: "module mau HundredGigE0/3/CPU0/1", DESCR: "CPAK 100G LR4"
+! PID: CPAK-100G-LR4   , VID: V06 , SN: FBN22071684     
+! 
+! -----------------------------------------------------------------------------
+! 0/RSP0/CPU0     A99-RSP-TR(Active)        IOS XR RUN       PWR,NSHUT,MON
+! 0/RSP1/CPU0     A99-RSP-TR(Standby)       IOS XR RUN       PWR,NSHUT,MON
+! 0/0/CPU0        A9K-24X10GE-1G-TR         IOS XR RUN       PWR,NSHUT,MON
+! 0/2/CPU0        A9K-4X100GE-TR            IOS XR RUN       PWR,NSHUT,MON
+! 0/3/CPU0        A9K-4X100GE-TR            IOS XR RUN       PWR,NSHUT,MON
+service unsupported-transceiver
+hostname VD7035AGGVD1
+clock timezone CET 1
+clock summer-time CEST recurring last sunday march 02:00 last sunday october 03:00
+banner motd ^C
+*****************************************************************************
+Unauthorised access prohibited
+*****************************************************************************
+L'acces a cet equipement est restreint aux personnes autorisees
+*****************************************************************************
+^C
+banner login ^C
+
+              .oooooo..o           oooo      .       
+             d8P'    `Y8           `888    .o8       
+             Y88bo.       .oooo.    888  .o888oo     
+              `"Y8888o.  `P  )88b   888    888       
+                  `"Y88b  .oP"888   888    888       
+             oo     .d8P d8(  888   888    888 . .o. 
+             8""88888P'  `Y888""8o o888o   "888" Y8P 
+
+*****************************************************************
+*                                                               *
+*          UNAUTHORIZED ACCESS STRICTLY PROHIBITED              *
+*          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              *
+*  NOTICE: Access to this device is restricted to authorized    *
+*          agents of SALT. only                                 *
+*                                                               *
+*          Accessing this device for any reason without         *
+*          appropriate authorization is not permitted           *
+*                                                               *
+*****************************************************************
+^C
+locale country CH
+locale language fr
+logging trap debugging
+logging events buffer-size 200000
+logging console notifications
+logging monitor debugging
+logging buffered 10000000
+logging buffered debugging
+logging facility local3
+logging 172.19.198.18 vrf default severity info port default
+logging source-interface Loopback0
+logging hostnameprefix VD7035AGGVD1
+logging events link-status software-interfaces
+domain name salt.ch
+telnet vrf mgt ipv4 server max-servers 10
+telnet vrf default ipv4 server max-servers 10
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 172.19.198.219 port 49
+ key 7 047A06541C20494208
+ single-connection
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec console local
+aaa authorization exec default group tacacs+ none
+aaa authentication login aux local
+aaa authentication login ssh group tacacs+ local
+aaa authentication login console local
+vrf mgt
+ address-family ipv4 unicast
+ !
+!
+tcp selective-ack
+tcp window-size 65535
+tcp path-mtu-discovery
+tcp timestamp
+line template root
+ users group root-system
+ exec-timeout 30 0
+ length 40
+!
+line console
+ authorization exec console
+ login authentication console
+ exec-timeout 30 0
+ parity none
+ databits 8
+ stopbits 2
+ length 40
+ transport input telnet ssh
+ cli whitespace completion
+!
+line default
+ users group operator
+ login authentication ssh
+ exec-timeout 30 0
+ length 40
+ access-class ingress VTY_ACCESS
+ session-timeout 30 output
+ transport input telnet ssh
+!
+vty-pool default 0 15 line-template default
+snmp-server ifindex persist
+snmp-server host 10.8.160.17 traps version 3 priv LIMS_USER_01
+snmp-server host 10.11.160.17 traps version 3 priv LIMS_USER_01
+snmp-server community BlaBla2016 RO SystemOwner
+snmp-server community 7%+t*5. RO IPv4 snmp
+snmp-server group LIMS_GROUP_01 v3 auth notify LIMS_VIEW_01 read LIMS_VIEW_01 write LIMS_VIEW_01
+snmp-server contact "Salt"
+snmp-server trap-source Loopback0
+monitor-session rani-mtp ethernet
+ destination pseudowire
+!
+ntp
+ server 172.19.198.20 source Loopback0
+!
+bfd
+ multipath include location 0/0/CPU0
+ dampening maximum-wait 30000
+!
+alias sid show interface description 
+alias sin show isis neighbors
+alias srb show running-config | begin
+alias sri show running-config | i
+alias sbi4 sh bgp vrf INTERNET ipv4 unicast
+alias sbi6 sh bgp vrf INTERNET ipv6 unicast
+alias sbv4 sh bgp vpnv4 unicast
+alias sbv6 sh bgp vpnv6 unicast
+alias sbsi4 show bgp vrf INTERNET ipv4 unicast summary
+alias sbsi6 show bgp vrf INTERNET ipv6 unicast summary
+alias sbsv4 sh bgp vpnv4 unicast summary
+alias sbsv6 sh bgp vpnv6 unicast summary
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH peer
+     address ipv4 10.192.14.47
+     address ipv4 10.193.14.47
+     address ipv4 172.19.55.216
+     address ipv4 172.19.198.0/24
+    !
+    allow SNMP peer
+     address ipv4 10.8.160.17
+     address ipv4 10.11.160.17
+     address ipv4 172.19.55.216
+     address ipv4 172.19.198.25
+     address ipv4 172.19.198.153
+     address ipv4 172.19.198.227
+     address ipv4 172.19.198.245
+     address ipv4 172.19.198.246
+    !
+   !
+  !
+ !
+!
+ipv4 access-list snmp
+ 10 permit ipv4 host 172.19.198.245 any
+ 20 permit ipv4 host 172.19.55.216 any
+ 30 permit ipv4 host 172.19.198.25 any
+ 40 permit ipv4 host 172.19.198.246 any
+!
+ipv4 access-list VTY_ACCESS
+ 10 permit tcp 172.19.198.0 0.0.0.255 any eq ssh
+ 11 permit tcp host 172.19.55.216 any eq ssh
+ 12 permit tcp host 10.192.14.47 any eq ssh
+ 13 permit tcp host 10.193.14.47 any eq ssh
+ 20 permit tcp 172.19.198.0 0.0.0.255 any eq cmd
+ 21 permit tcp host 172.19.55.216 any eq cmd
+ 22 permit tcp host 10.192.14.47 any eq cmd
+ 23 permit tcp host 10.193.14.47 any eq cmd
+ 30 deny tcp any any log
+ 40 deny udp any any log
+ 50 deny ipv4 any any log
+ 70 deny tcp any any log
+ 80 deny udp any any log
+ 90 deny ipv4 any any log
+!
+interface Bundle-Ether1
+ description CORE BB:CR-ASR9K-1/Bundle-Ether51 
+ mtu 9216
+ ipv4 address 10.80.136.2 255.255.255.252
+ load-interval 30
+!
+interface Bundle-Ether2
+ description CORE BB:CR-ASR9K-2/Bundle-Ether51 
+ mtu 9216
+ ipv4 address 10.80.136.6 255.255.255.252
+ load-interval 30
+!
+interface Loopback0
+ description Router_ID 
+ ipv4 address 10.80.3.1 255.255.255.255
+!
+interface MgmtEth0/RSP0/CPU0/0
+ description to_VD7035IPCO1_Gi2/1/19 
+ vrf mgt
+ ipv4 address 10.80.3.106 255.255.255.248
+!
+interface MgmtEth0/RSP0/CPU0/1
+ shutdown
+!
+interface MgmtEth0/RSP1/CPU0/0
+ description to_VD7035IPCO1_Gi3/1/19 
+ vrf mgt
+ ipv4 address 10.80.3.107 255.255.255.248
+!
+interface MgmtEth0/RSP1/CPU0/1
+ shutdown
+!
+interface TenGigE0/0/0/0
+ shutdown
+!
+interface TenGigE0/0/0/1
+ shutdown
+!
+interface TenGigE0/0/0/2
+ shutdown
+!
+interface TenGigE0/0/0/3
+ shutdown
+!
+interface TenGigE0/0/0/4
+ shutdown
+!
+interface TenGigE0/0/0/5
+ shutdown
+!
+interface TenGigE0/0/0/6
+ shutdown
+!
+interface TenGigE0/0/0/7
+ shutdown
+!
+interface TenGigE0/0/0/8
+ shutdown
+!
+interface TenGigE0/0/0/9
+ shutdown
+!
+interface TenGigE0/0/0/10
+ shutdown
+!
+interface TenGigE0/0/0/11
+ shutdown
+!
+interface TenGigE0/0/0/12
+ shutdown
+!
+interface TenGigE0/0/0/13
+ shutdown
+!
+interface TenGigE0/0/0/14
+ shutdown
+!
+interface TenGigE0/0/0/15
+ shutdown
+!
+interface TenGigE0/0/0/16
+ shutdown
+!
+interface TenGigE0/0/0/17
+ shutdown
+!
+interface TenGigE0/0/0/18
+ shutdown
+!
+interface TenGigE0/0/0/19
+ shutdown
+!
+interface TenGigE0/0/0/20
+ shutdown
+!
+interface TenGigE0/0/0/21
+ shutdown
+!
+interface TenGigE0/0/0/22
+ shutdown
+!
+interface TenGigE0/0/0/23
+ shutdown
+!
+interface PTP0/RSP0/CPU0/0
+ shutdown
+!
+interface HundredGigE0/2/0/0
+ description CORE BB:CR-ASR9K-1/HundredGigE0/8/0/4 
+ bundle id 1 mode active
+ carrier-delay up 10 down 600
+ load-interval 30
+!
+interface HundredGigE0/2/0/1
+ shutdown
+!
+interface HundredGigE0/2/0/2
+ shutdown
+!
+interface HundredGigE0/2/0/3
+ shutdown
+!
+interface HundredGigE0/3/0/0
+ description CORE BB:CR-ASR9K-2/HundredGigE0/8/0/4 
+ bundle id 2 mode active
+ carrier-delay up 10 down 600
+ load-interval 30
+!
+interface HundredGigE0/3/0/1
+ shutdown
+!
+interface HundredGigE0/3/0/2
+ shutdown
+!
+interface HundredGigE0/3/0/3
+ shutdown
+!
+interface preconfigure PTP0/RSP1/CPU0/0
+ shutdown
+!
+router static
+ vrf mgt
+  address-family ipv4 unicast
+   10.0.0.0/8 10.80.3.105
+   172.19.0.0/16 10.80.3.105
+  !
+ !
+!
+router isis IPBB
+ is-type level-2-only
+ net 49.0041.0001.0100.8000.3001.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  maximum-paths 1
+ !
+ interface Bundle-Ether1
+  circuit-type level-2-only
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+   mpls ldp sync
+  !
+ !
+ interface Bundle-Ether2
+  circuit-type level-2-only
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+   mpls ldp sync
+  !
+ !
+ interface Loopback0
+  passive
+  circuit-type level-2-only
+  address-family ipv4 unicast
+  !
+ !
+!
+mpls oam
+!
+mpls ldp
+ log
+  hello-adjacency
+  neighbor
+  nsr
+  graceful-restart
+  session-protection
+ !
+ router-id 10.80.3.1
+ interface Bundle-Ether1
+  address-family ipv4
+  !
+ !
+ interface Bundle-Ether2
+  address-family ipv4
+  !
+ !
+!
+ssh server session-limit 10
+ssh server v2
+end
+
